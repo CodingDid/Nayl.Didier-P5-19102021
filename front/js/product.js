@@ -1,12 +1,13 @@
 // Codage parti product en JS
 console.log("connect product OK");
-// création de la balise img avec attribut
+
+// Méthode fetch récup des éléments avec API et creation chemin de la structure HTML
 let url = window.location.href;
 let idParams = new URL(url).searchParams.get('id');
 let promise = fetch('http://localhost:3000/api/products/' + idParams)
     .then(response => response.json())
     .then(product => {
-        console.log("objets tableaux", product);
+        //console.log("objets tableaux", product);
         const itemImg = document.querySelector('.item__img');
         let img = document.createElement('img');
         img.src = product.imageUrl
@@ -26,6 +27,7 @@ let promise = fetch('http://localhost:3000/api/products/' + idParams)
         description.textContent = product.description
 
         for( let i = 0; i < product.colors.length; i++){
+            //console.log("Afficher les produits", product);
             // Insertion des choix value color balise <option>
             const select = document.getElementById('colors');
             let option = document.createElement('option');
@@ -35,41 +37,78 @@ let promise = fetch('http://localhost:3000/api/products/' + idParams)
         }
     })
 
-// creation tableau pour les produits canapés.
-const descriptifKanap  = [
-        'altTxt',
-        'colors',
-        'description',
-        'imageUrl',
-        'name',
-        'price',
-        'id'
-]
-console.log(descriptifKanap);
+//----------------------------------------------------------//
+// creation objets pour les products canapes.
+
 const btn = document.querySelector('button');
-const alerte = () => {
-    //promise.then;
-    alert("Rajout d'un nouveau Kanap !", descriptifKanap);
-}
-btn.addEventListener("click", function (){
-    const listProduct = [
-        "12",
-        "titi"
-    ]
-    const stockage = JSON.parse(localStorage.getItem('panier'));
-    if(stockage == undefined){
-        stockage.push(listProduct);
-        localStorage.setItem('panier', JSON.stringify(stockage));
-        alert('add')
-    }else {
-        const newProduct = [
-            "11",
-            "toto"
+
+btn.addEventListener("click", function () {
+    let stockage = JSON.parse(localStorage.getItem('panier'));
+    //Création du produit
+    let products = {
+        "products": [
+            {
+                "color": document.getElementById('colors').value,
+                "id": idParams,
+                "name": document.getElementById('title').innerText,
+                "price": document.getElementById('price').price,
+                "imageUrl": document.querySelector('.item__img').children[length].src,
+                "description": document.getElementById('description').innerText,
+                "altTxt": document.querySelector('.item__img').children[length].alt,
+                "quantity": parseInt(document.getElementById('quantity').value)
+            }
         ]
-        stockage.push(newProduct);
+    };
+    let isExist = false;
+    let totalQuantity = parseInt('0')
+    if(stockage == null){
+        console.log('null');
+        localStorage.setItem('panier', JSON.stringify(products));
+    } else {
+        console.log('not null');
+        let product = {
+            "color": document.getElementById('colors').value,
+            "id": idParams,
+            "name": document.getElementById('title').innerText,
+            "price": document.getElementById('price').price,
+            "imageUrl": document.querySelector('.item__img').children[length].src,
+            "description": document.getElementById('description').innerText,
+            "altTxt": document.querySelector('.item__img').children[length].alt,
+            "quantity": parseInt(document.getElementById('quantity').value)
+        };
+            for(let i = 0; i < stockage.products.length; i++) {
+                //console.log("Boucle stockage", stockage);
+                console.log(i);
+                if (stockage.products[i].color == product.color && stockage.products[i].id == product.id) {
+                    /*totalQuantity = parseInt(stockage.products[i].quantity) + parseInt(product.quantity);
+                    stockage.products[i].quantity = totalQuantity;*/
+                    stockage.products[i].quantity += product.quantity;
+                    console.log("Quantity", stockage.products[i].quantity);
+                    isExist = true;
+                    break;
+                }
+
+            }    // Faire boucle for sur stockage.products
+        // si stockage.products.color == product.color && stockage.products.id == product.id
+        // alors stockage.products.quantity += product.quantity
+        // mettre in boolean à false !
+        if(!isExist){
+            stockage.products.push(product);
+        }
+
+        console.log(stockage);
         localStorage.setItem('panier', JSON.stringify(stockage));
-        alert("coucou");
+        /*let panierId = localStorage.getItem('panier');
+        if(panierId){
+            //console.log("resultat du storage" + panier);
+            panierId.remove;
+        } else {
+            console.log("Le stockage n'existe pas");
+        }*/
+        window.location.href = "http://localhost:63342/Nayl.Didier-P5-19102021/P5-Dev-Web-Kanap/front/html/cart.html";
     }
 });
-//console.log(btn);
+//console.log(localStorage.length);
+
+
 

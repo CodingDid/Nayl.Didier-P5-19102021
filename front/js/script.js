@@ -1,18 +1,18 @@
-console.log('connecté !');
-
-
+// Request HTTP en directive GET vers API
 fetch('http://localhost:3000/api/products/')
     .then(response => response.json())
     .then(datas => {
+        console.log(datas);
+        // Boucle for permettant de recuperer les datas de la request vers API
         for(let i = 0; i < datas.length; i++){
             const items = document.getElementById('items');
             let img = document.createElement('img');
             img.src = datas[i].imageUrl;
             img.alt = datas[i].altTxt;
+
             let h3 = document.createElement('h3');
             h3.className = "productName";
             h3.innerText = datas[i].name;
-
 
             let p = document.createElement('p');
             p.className = "productDescription";
@@ -28,9 +28,9 @@ fetch('http://localhost:3000/api/products/')
             a.appendChild(article);
 
             items.appendChild(a);
-            console.log("structure total", h3, img, p);
-        }
+            //console.log("structure total", h3, img, p);
 
+        }
     });
 
 

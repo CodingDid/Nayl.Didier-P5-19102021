@@ -24,22 +24,25 @@ for(let i = 0; i < panier.products.length; i++){
     let couleur = document.createElement('p');
     couleur.textContent = panier.products[i].colors;
 
-    // création balise p "prix"
-    let prix = document.createElement('p');
+    // getélément de balise p "prix"
+    let prix = document.getElementById('totalPrice');
+    //let prix = document.createElement('p');
     prix.textContent = panier.products[i].price;
 
-    // Création de div3
+    // Création de div3 cartItemContentDescription
     const cartItemContentDescription = document.createElement('div');
     cartItemContentDescription.className = "cart__item__content__description";
 
-    // Creation de div2
+    // Creation de div2 cartItemContent
     let cartItemContent = document.createElement('div');
     cartItemContent.className = "cart__item__content";
 
     // création qTity p3
     let qTity = document.createElement('p');
+
     //qTity.innerText = "Qté :";
     qTity.innerText = panier.products[i].quantity;
+
     // création balise input "inputValue"
     let inputValue = document.createElement('input');
     inputValue.type = "number";
@@ -47,22 +50,23 @@ for(let i = 0; i < panier.products.length; i++){
     inputValue.name = "itemQuantity";
     inputValue.min = "1";
     inputValue.max = "100";
-    //inputValue.value = "42";
+    inputValue.value = "42";
     inputValue.value = panier.products[i].quantity;
-    // création de div5
+
+    // création de div5 cartItemContentSettingsQuantity
     let cartItemContentSettingsQuantity = document.createElement('div');
     cartItemContentSettingsQuantity.className = "cart__item__content__settings__quantity";
 
-    // création de div4
+    // création de div4 cartItemContentSettings
     let cartItemContentSettings = document.createElement('div');
     cartItemContentSettings.className = "cart__item__content__settings";
 
-    // création deleteItem p4
+    // création p4 deleteItem
     let deleteItem = document.createElement('p')
     deleteItem.className = "deleteItem";
     deleteItem.innerText = "Supprimer";
 
-    // création de div6
+    // création de div6 cartItemContentSettingsDelete
     let cartItemContentSettingsDelete = document.createElement('div');
     cartItemContentSettingsDelete.className = "cart__item__content__settings__delete";
 
@@ -97,19 +101,93 @@ for(let i = 0; i < panier.products.length; i++){
     let spanQuantity = document.getElementById('totalQuantity');
     spanQuantity.textContent = '2';
     console.log(spanQuantity);
+
+    // Attache de la balise "span id=
+    let spanTotalPrice = document.getElementById('totalPrice');
+    spanTotalPrice.textContent = '84'
+    console.log(spanTotalPrice);
 }
 
+// Exemple function async sur internet
+async function getPrice() {
+        let response = await fetch('http://localhost:3000/api/products/');
+        let datas = await response.json();
+        for (let i = 0; i < datas.length; i++) {
+            console.log(datas[i].price)
+            //console.log(panier.products[i].quantity)
+            //console.log(panier.products[i].name);
+            //console.log(panier.products[i].price);
+            let resultPrice = document.querySelector('.cart__price');
+            let totalQt = document.getElementById('totalQuantity');
+            let totalPrice = document.getElementById('totalPrice');
+            //console.log(totalQt)
+            console.log(totalPrice)
+            //Test calcul local
+            let resultGeneral = 2 * 84;
+            console.log('somme', resultGeneral);
+            return datas;
+        }
+    };
+getPrice()
+    //.then(datas => console.log(datas));
+
+
+// TEST
+// Exemple simple de fetch
+/*const affichePrix = () => {
+fetch('http://localhost:3000/api/products/')
+    .then(reponse => reponse.json())
+    .then(datas => {
+            for (let i = 0; i < datas.length; i++) {
+                console.log(panier.products[i].color)
+                console.log(panier.products[i].quantity)
+                document.querySelector('.cart__price');
+                //console.log(panier.datas[i].quantity)
+                //console.log(panier.data[i].name);
+                //console.log(prix);
+            }
+        })
+};
+affichePrix()*/
+
+// TEST
+// Exemple d'une Function async await
+/*async function foo(){
+    const p1 = new Promise((resolve, reject) => {
+            setTimeout(() => resolve('Action effectuée !'), 1000)
+    });
+       let resultat = await  p1;
+       console.log(resultat);
+}
+foo()*/
+
+
+
+
+
+
 //------------------- Obtention du prix et calcul sur ce dernier avec la quantité ------------------------------------------//
-async function getPrice(price){
-    let gPrice = await fetch(`http://localhost:3000/api/products/`)
-        .then(response => response.json())
-        .then(datas => {
-            console.log('recup du fetch ', datas);
+/*async function getPrice(price) {
+
+    let reponse = await fetch('http://localhost:3000/api/products/');
+    let data = await reponse.json();
+        console.log(reponse, 'Response Javascript');
+        document.querySelector('cart__price').price;
+        //console.log(reponseJS, 'Object Javascript');
+}
+    //getPrice();
+
+
+//.then(response => response.json())
+        //.then(datas => {
+
+
+            /*console.log('recup du fetch ', datas);
             for(let i = 0; datas.length; i++) {
                 console.log('price', gPrice[i])
                 const prix = document.getElementById('price')
                 console.log(prix);
             }
             })
-        }
-        getPrice()
+        }*/
+        //getPrice()
